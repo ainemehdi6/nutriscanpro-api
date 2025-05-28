@@ -1,0 +1,1752 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "summary": "Register a new user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User successfully registered"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "summary": "Login a user",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User successfully logged in"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/auth/profile": {
+      "get": {
+        "operationId": "AuthController_getProfile",
+        "summary": "Get current user profile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current user profile"
+          }
+        },
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/users": {
+      "get": {
+        "operationId": "UsersController_findAll",
+        "summary": "Get all users (admin only)",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all users"
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "operationId": "UsersController_findOne",
+        "summary": "Get user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return user by ID"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "UsersController_update",
+        "summary": "Update user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "UsersController_remove",
+        "summary": "Delete user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deleted successfully"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "tags": [
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/foods": {
+      "post": {
+        "operationId": "FoodsController_create",
+        "summary": "Create a new food (admin only)",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateFoodDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Food created successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "foods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "FoodsController_findAll",
+        "summary": "Get all foods with optional name filter",
+        "parameters": [
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "description": "Filter foods by name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return all foods"
+          }
+        },
+        "tags": [
+          "foods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/foods/{id}": {
+      "get": {
+        "operationId": "FoodsController_findOne",
+        "summary": "Get food by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return food by ID"
+          },
+          "404": {
+            "description": "Food not found"
+          }
+        },
+        "tags": [
+          "foods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "FoodsController_update",
+        "summary": "Update food (admin only)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateFoodDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Food updated successfully"
+          },
+          "404": {
+            "description": "Food not found"
+          }
+        },
+        "tags": [
+          "foods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "FoodsController_remove",
+        "summary": "Delete food (admin only)",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food deleted successfully"
+          },
+          "404": {
+            "description": "Food not found"
+          }
+        },
+        "tags": [
+          "foods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/foods/barcode/{barcode}": {
+      "get": {
+        "operationId": "FoodsController_findByBarcode",
+        "summary": "Get food by barcode",
+        "parameters": [
+          {
+            "name": "barcode",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return food by barcode"
+          },
+          "404": {
+            "description": "Food not found"
+          }
+        },
+        "tags": [
+          "foods"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/meals": {
+      "post": {
+        "operationId": "MealsController_create",
+        "summary": "Create a new meal",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMealDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Meal created successfully"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "MealsController_findAll",
+        "summary": "Get all meals for user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all meals for user"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/meals/date": {
+      "get": {
+        "operationId": "MealsController_findByDate",
+        "summary": "Get meals for a specific date",
+        "parameters": [
+          {
+            "name": "date",
+            "required": true,
+            "in": "query",
+            "description": "Date in ISO format",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return meals for date"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/meals/{id}": {
+      "get": {
+        "operationId": "MealsController_findOne",
+        "summary": "Get meal by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return meal by ID"
+          },
+          "404": {
+            "description": "Meal not found"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "MealsController_update",
+        "summary": "Update meal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMealDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Meal updated successfully"
+          },
+          "404": {
+            "description": "Meal not found"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "MealsController_remove",
+        "summary": "Delete meal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Meal deleted successfully"
+          },
+          "404": {
+            "description": "Meal not found"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/meals/{id}/items": {
+      "post": {
+        "operationId": "MealsController_addMealItem",
+        "summary": "Add food item to meal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddMealItemDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Food item added to meal successfully"
+          },
+          "404": {
+            "description": "Meal or food not found"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/meals/{mealId}/items/{itemId}": {
+      "delete": {
+        "operationId": "MealsController_removeMealItem",
+        "summary": "Remove food item from meal",
+        "parameters": [
+          {
+            "name": "mealId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "itemId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food item removed from meal successfully"
+          },
+          "404": {
+            "description": "Meal or food item not found"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/meals/{id}/analyze-image": {
+      "post": {
+        "operationId": "MealsController_analyzeAndAddImage",
+        "summary": "Analyze image and add meal items",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "Image file to analyze"
+                  }
+                },
+                "required": [
+                  "file"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/ai-analysis/image": {
+      "post": {
+        "operationId": "AiAnalysisController_analyzeImage",
+        "summary": "Analyze food from image",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "context": {
+                    "type": "string",
+                    "example": "This is a dinner plate with chicken and vegetables"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Image analyzed successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "ai-analysis"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/ai-analysis/text": {
+      "post": {
+        "operationId": "AiAnalysisController_analyzeText",
+        "summary": "Analyze food from text description",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeTextDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Text analyzed successfully"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        },
+        "tags": [
+          "ai-analysis"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/exercises": {
+      "post": {
+        "operationId": "ExercisesController_create",
+        "summary": "Create a new exercise",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExerciseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Exercise created successfully"
+          }
+        },
+        "tags": [
+          "exercises"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "ExercisesController_findAll",
+        "summary": "Get all exercises for user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all exercises for user"
+          }
+        },
+        "tags": [
+          "exercises"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/exercises/date": {
+      "get": {
+        "operationId": "ExercisesController_findByDate",
+        "summary": "Get exercises for a specific date",
+        "parameters": [
+          {
+            "name": "date",
+            "required": true,
+            "in": "query",
+            "description": "Date in ISO format",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return exercises for date"
+          }
+        },
+        "tags": [
+          "exercises"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/exercises/calories": {
+      "get": {
+        "operationId": "ExercisesController_getCaloriesByDate",
+        "summary": "Get total calories burned for a date",
+        "parameters": [
+          {
+            "name": "date",
+            "required": true,
+            "in": "query",
+            "description": "Date in ISO format",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return total calories burned for date"
+          }
+        },
+        "tags": [
+          "exercises"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/exercises/{id}": {
+      "get": {
+        "operationId": "ExercisesController_findOne",
+        "summary": "Get exercise by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return exercise by ID"
+          },
+          "404": {
+            "description": "Exercise not found"
+          }
+        },
+        "tags": [
+          "exercises"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "ExercisesController_update",
+        "summary": "Update exercise",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExerciseDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Exercise updated successfully"
+          },
+          "404": {
+            "description": "Exercise not found"
+          }
+        },
+        "tags": [
+          "exercises"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "ExercisesController_remove",
+        "summary": "Delete exercise",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exercise deleted successfully"
+          },
+          "404": {
+            "description": "Exercise not found"
+          }
+        },
+        "tags": [
+          "exercises"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/goals": {
+      "post": {
+        "operationId": "GoalsController_create",
+        "summary": "Create a new goal",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateGoalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Goal created successfully"
+          }
+        },
+        "tags": [
+          "goals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "GoalsController_findAll",
+        "summary": "Get all goals for user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all goals for user"
+          }
+        },
+        "tags": [
+          "goals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/goals/active": {
+      "get": {
+        "operationId": "GoalsController_getActiveGoal",
+        "summary": "Get active goal for user",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return active goal"
+          },
+          "404": {
+            "description": "No active goal found"
+          }
+        },
+        "tags": [
+          "goals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/goals/{id}": {
+      "get": {
+        "operationId": "GoalsController_findOne",
+        "summary": "Get goal by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return goal by ID"
+          },
+          "404": {
+            "description": "Goal not found"
+          }
+        },
+        "tags": [
+          "goals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "GoalsController_update",
+        "summary": "Update goal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateGoalDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Goal updated successfully"
+          },
+          "404": {
+            "description": "Goal not found"
+          }
+        },
+        "tags": [
+          "goals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "GoalsController_remove",
+        "summary": "Delete goal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Goal deleted successfully"
+          },
+          "404": {
+            "description": "Goal not found"
+          }
+        },
+        "tags": [
+          "goals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/progress/weight": {
+      "post": {
+        "operationId": "ProgressController_createWeightLog",
+        "summary": "Log a new weight",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateWeightLogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Weight logged successfully"
+          }
+        },
+        "tags": [
+          "progress"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "ProgressController_getWeightLogs",
+        "summary": "Get all weight logs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Return all weight logs"
+          }
+        },
+        "tags": [
+          "progress"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/progress/weight/range": {
+      "get": {
+        "operationId": "ProgressController_getWeightByDateRange",
+        "summary": "Get weight logs by date range",
+        "parameters": [
+          {
+            "name": "startDate",
+            "required": true,
+            "in": "query",
+            "description": "Start date in ISO format",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "endDate",
+            "required": true,
+            "in": "query",
+            "description": "End date in ISO format",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return weight logs in date range"
+          }
+        },
+        "tags": [
+          "progress"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/progress/weight/{id}": {
+      "get": {
+        "operationId": "ProgressController_getWeightLog",
+        "summary": "Get weight log by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return weight log by ID"
+          },
+          "404": {
+            "description": "Weight log not found"
+          }
+        },
+        "tags": [
+          "progress"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "ProgressController_updateWeightLog",
+        "summary": "Update weight log",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateWeightLogDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Weight log updated successfully"
+          },
+          "404": {
+            "description": "Weight log not found"
+          }
+        },
+        "tags": [
+          "progress"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "ProgressController_removeWeightLog",
+        "summary": "Delete weight log",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Weight log deleted successfully"
+          },
+          "404": {
+            "description": "Weight log not found"
+          }
+        },
+        "tags": [
+          "progress"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Fitness Tracker API",
+    "description": "API for fitness and nutrition tracking application",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "auth",
+      "description": "Authentication endpoints"
+    },
+    {
+      "name": "users",
+      "description": "User management endpoints"
+    },
+    {
+      "name": "foods",
+      "description": "Food database endpoints"
+    },
+    {
+      "name": "meals",
+      "description": "Meal logging endpoints"
+    },
+    {
+      "name": "exercises",
+      "description": "Exercise logging endpoints"
+    },
+    {
+      "name": "goals",
+      "description": "Goal tracking endpoints"
+    },
+    {
+      "name": "progress",
+      "description": "Weight progress endpoints"
+    },
+    {
+      "name": "ai-analysis",
+      "description": "AI-powered food analysis endpoints"
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Password123"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Password123"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "Password123"
+          },
+          "name": {
+            "type": "string",
+            "example": "John Doe"
+          }
+        }
+      },
+      "CreateFoodDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Grilled Chicken Breast"
+          },
+          "barcode": {
+            "type": "string",
+            "example": "1234567890"
+          },
+          "calories": {
+            "type": "number",
+            "example": 165
+          },
+          "protein": {
+            "type": "number",
+            "example": 31
+          },
+          "carbs": {
+            "type": "number",
+            "example": 0
+          },
+          "fat": {
+            "type": "number",
+            "example": 3.6
+          },
+          "servingSize": {
+            "type": "number",
+            "example": 100
+          },
+          "servingUnit": {
+            "type": "string",
+            "example": "g"
+          }
+        },
+        "required": [
+          "name",
+          "calories",
+          "protein",
+          "carbs",
+          "fat"
+        ]
+      },
+      "UpdateFoodDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Grilled Chicken Breast"
+          },
+          "barcode": {
+            "type": "string",
+            "example": "1234567890"
+          },
+          "calories": {
+            "type": "number",
+            "example": 165
+          },
+          "protein": {
+            "type": "number",
+            "example": 31
+          },
+          "carbs": {
+            "type": "number",
+            "example": 0
+          },
+          "fat": {
+            "type": "number",
+            "example": 3.6
+          },
+          "servingSize": {
+            "type": "number",
+            "example": 100
+          },
+          "servingUnit": {
+            "type": "string",
+            "example": "g"
+          }
+        }
+      },
+      "CreateMealDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "BREAKFAST",
+              "LUNCH",
+              "DINNER",
+              "SNACK"
+            ],
+            "example": "BREAKFAST"
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2023-10-15T08:00:00Z"
+          }
+        },
+        "required": [
+          "type",
+          "date"
+        ]
+      },
+      "UpdateMealDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "BREAKFAST",
+              "LUNCH",
+              "DINNER",
+              "SNACK"
+            ],
+            "example": "BREAKFAST"
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2023-10-15T08:00:00Z"
+          }
+        }
+      },
+      "AddMealItemDto": {
+        "type": "object",
+        "properties": {
+          "foodId": {
+            "type": "string",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "quantity": {
+            "type": "number",
+            "example": 100
+          },
+          "unit": {
+            "type": "string",
+            "example": "g"
+          }
+        },
+        "required": [
+          "foodId",
+          "quantity",
+          "unit"
+        ]
+      },
+      "AnalyzeTextDto": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "example": "I had a caesar salad with grilled chicken for lunch"
+          }
+        },
+        "required": [
+          "description"
+        ]
+      },
+      "CreateExerciseDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Running"
+          },
+          "caloriesBurned": {
+            "type": "number",
+            "example": 300
+          },
+          "duration": {
+            "type": "number",
+            "example": 30
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2023-10-15T17:00:00Z"
+          }
+        },
+        "required": [
+          "name",
+          "caloriesBurned",
+          "duration",
+          "date"
+        ]
+      },
+      "UpdateExerciseDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Running"
+          },
+          "caloriesBurned": {
+            "type": "number",
+            "example": 300
+          },
+          "duration": {
+            "type": "number",
+            "example": 30
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2023-10-15T17:00:00Z"
+          }
+        }
+      },
+      "CreateGoalDto": {
+        "type": "object",
+        "properties": {
+          "calories": {
+            "type": "number",
+            "example": 2000
+          },
+          "protein": {
+            "type": "number",
+            "example": 150
+          },
+          "carbs": {
+            "type": "number",
+            "example": 200
+          },
+          "fat": {
+            "type": "number",
+            "example": 65
+          }
+        },
+        "required": [
+          "calories",
+          "protein",
+          "carbs",
+          "fat"
+        ]
+      },
+      "UpdateGoalDto": {
+        "type": "object",
+        "properties": {
+          "calories": {
+            "type": "number",
+            "example": 2000
+          },
+          "protein": {
+            "type": "number",
+            "example": 150
+          },
+          "carbs": {
+            "type": "number",
+            "example": 200
+          },
+          "fat": {
+            "type": "number",
+            "example": 65
+          }
+        }
+      },
+      "CreateWeightLogDto": {
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "number",
+            "example": 75.5
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2023-10-15T08:00:00Z"
+          }
+        },
+        "required": [
+          "weight"
+        ]
+      },
+      "UpdateWeightLogDto": {
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "number",
+            "example": 75.5
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string",
+            "example": "2023-10-15T08:00:00Z"
+          }
+        }
+      }
+    }
+  }
+}

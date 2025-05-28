@@ -1,0 +1,122 @@
+// This is your Prisma schema file
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String
+  name          String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  meals         Meal[]
+  exercises     Exercise[]
+  goals         Goal[]
+  weightLogs    WeightLog[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Food {
+  id            String    @id @default(uuid())
+  name          String
+  barcode       String?   @unique
+  calories      Float
+  protein       Float
+  carbs         Float
+  fat           Float
+  servingSize   Float     @default(100)
+  servingUnit   String    @default("g")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  mealItems     MealItem[]
+}
+
+model Meal {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type          MealType
+  date          DateTime
+  items         MealItem[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId, date])
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+
+model MealItem {
+  id            String    @id @default(uuid())
+  mealId        String
+  meal          Meal      @relation(fields: [mealId], references: [id], onDelete: Cascade)
+  foodId        String
+  food          Food      @relation(fields: [foodId], references: [id])
+  quantity      Float
+  unit          String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([mealId])
+}
+
+model Exercise {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name          String
+  caloriesBurned Float
+  duration      Int       // in minutes
+  date          DateTime
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId, date])
+}
+
+model Goal {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  calories      Float
+  protein       Float
+  carbs         Float
+  fat           Float
+  startDate     DateTime  @default(now())
+  endDate       DateTime?
+  active        Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId, active])
+}
+
+model WeightLog {
+  id            String    @id @default(uuid())
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  weight        Float
+  date          DateTime
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([userId, date])
+}
