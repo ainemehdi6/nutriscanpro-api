@@ -207,8 +207,6 @@ export class MealsService {
     if (!Array.isArray(foods) || foods.length === 0) {
       throw new BadRequestException('Une liste valide d’aliments est requise.');
     }
-    
-    console.log('Adding foods to meal:', mealId, userId, foods);
 
     await this.findOne(mealId, userId);
 

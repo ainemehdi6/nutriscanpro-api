@@ -161,7 +161,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       });
-      console.log(response.json);
+
       if (!response.ok) {
         throw new BadRequestException(`Gemini API error: ${response.statusText}`);
       }
