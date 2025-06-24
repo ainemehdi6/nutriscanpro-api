@@ -11,6 +11,7 @@
     fat: number;
     servingSize: number;
     servingUnit: string;
+    quantity?: number;
   }
 
   export interface NutritionResponse {
@@ -54,7 +55,8 @@
               "carbs": 0,
               "fat": 3.6,
               "servingSize": 100,
-              "servingUnit": "g"
+              "servingUnit": "g",
+              "quantity": 230
             }
           ],
           "totalNutrition": {
@@ -100,7 +102,7 @@
       const prompt = `
         Tu es un nutritionniste expert. Voici une description d’un repas :
 
-        "${analyzeTextDto.text}"
+        "${analyzeTextDto.description}"
 
         Estime les informations nutritionnelles  et grammage en g pour chaque ingrédient identifié, avec le format JSON suivant :
 
@@ -113,7 +115,8 @@
               "carbs": 15,
               "fat": 5,
               "servingSize": 100,
-              "servingUnit": "g"
+              "servingUnit": "g",
+              "quantity": 230
             }
           ],
           "totalNutrition": {
@@ -195,6 +198,7 @@
         fat: food.fat,
         servingSize: food.servingSize,
         servingUnit: food.servingUnit,
+        quantity: food.quantity,
       }));
 
       return {

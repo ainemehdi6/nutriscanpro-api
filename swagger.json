@@ -705,6 +705,74 @@
         ]
       }
     },
+    "/api/meals/{id}/analyze-text": {
+      "post": {
+        "operationId": "MealsController_analyzeAndAddText",
+        "summary": "Analyze text and add meal items",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeTextDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Text analyzed and meal items added successfully"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/api/meals/{id}/add-new-foods": {
+      "post": {
+        "operationId": "MealsController_addFoods",
+        "summary": "Create and Add list off Foods to Meal",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Foods added successfully"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/api/ai-analysis/image": {
       "post": {
         "operationId": "AiAnalysisController_analyzeImage",

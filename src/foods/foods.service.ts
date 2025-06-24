@@ -8,18 +8,23 @@ export class FoodsService {
   constructor(private prisma: PrismaService) {}
 
   async create(createFoodDto: CreateFoodDto) {
-    if (createFoodDto.barcode) {
+    const {
+      quantity,
+      ...safeFoodData
+    } = createFoodDto;
+
+    if (safeFoodData.barcode) {
       const existingFood = await this.prisma.food.findUnique({
-        where: { barcode: createFoodDto.barcode },
+        where: { barcode: safeFoodData.barcode },
       });
       
       if (existingFood) {
-        throw new ConflictException(`Food with barcode "${createFoodDto.barcode}" already exists`);
+        throw new ConflictException(`Food with barcode "${safeFoodData.barcode}" already exists`);
       }
     }
     
     return this.prisma.food.create({
-      data: createFoodDto,
+      data: safeFoodData,
     });
   }
 

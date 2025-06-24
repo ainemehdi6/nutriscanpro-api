@@ -6,7 +6,9 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
     const { email, password, name } = createUserDto;
@@ -103,5 +105,24 @@ export class UsersService {
       }
       throw error;
     }
+  }
+  
+  async findByIdWithNutritionalGoals(id: string) {
+    return this.prisma.user.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        goals: {
+          select: {
+            calories: true,
+            protein: true,
+            carbs: true,
+            fat: true,
+          },
+        },
+      },
+    });
   }
 }

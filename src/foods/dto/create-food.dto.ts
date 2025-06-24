@@ -49,4 +49,6 @@ export class CreateFoodDto {
   @IsString()
   @IsOptional()
   servingUnit?: string;
+
+  quantity?: number;
 }

@@ -13,7 +13,15 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery, ApiBody, ApiConsumes } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+  ApiQuery,
+  ApiBody,
+  ApiConsumes,
+} from '@nestjs/swagger';
 import { MealsService } from './meals.service';
 import { CreateMealDto } from './dto/create-meal.dto';
 import { UpdateMealDto } from './dto/update-meal.dto';
@@ -21,6 +29,8 @@ import { AddMealItemDto } from './dto/add-meal-item.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AnalyzeImageDto } from '@/ai-analysis/dto/analyze-image.dto';
+import { AnalyzeTextDto } from '@/ai-analysis/dto/analyze-text.dto';
+import { CreateFoodDto } from '@/foods/dto/create-food.dto';
 
 @ApiTags('meals')
 @Controller('meals')
@@ -51,7 +61,6 @@ export class MealsController {
   @Get('date')
   findByDate(@Request() req: any, @Query('date') dateString: string) {
     const date = new Date(dateString);
-    
     return this.mealsService.findByDate(req.user.id, date);
   }
 
@@ -112,8 +121,8 @@ export class MealsController {
     return this.mealsService.removeMealItem(mealId, itemId, req.user.id);
   }
 
-  @ApiBearerAuth()
   @ApiOperation({ summary: 'Analyze image and add meal items' })
+  @ApiBearerAuth()
   @ApiConsumes('multipart/form-data')
   @ApiBody({
     schema: {
@@ -139,7 +148,34 @@ export class MealsController {
       throw new BadRequestException('No file uploaded');
     }
     const base64Image = file.buffer.toString('base64');
+    return this.mealsService.analyzeAndAddMealItems(id, req.user.id, {
+      base64Image: base64Image 
+    });
+  }
 
-    return this.mealsService.analyzeAndAddMealItems(id, req.user.id, base64Image);
+  @ApiOperation({ summary: 'Analyze text and add meal items' })
+  @ApiResponse({ status: 201, description: 'Text analyzed and meal items added successfully' })
+  @ApiBearerAuth()
+  @Post(':id/analyze-text')
+  analyzeAndAddText(
+    @Param('id') id: string,
+    @Body() analyzeTextDto: AnalyzeTextDto,
+    @Request() req: any,
+  ) {
+    return this.mealsService.analyzeAndAddMealItems(id, req.user.id, {
+      description: analyzeTextDto.description,
+    });
+  }
+
+  @ApiOperation({ summary: 'Create and Add list off Foods to Meal' })
+  @ApiResponse({ status: 201, description: 'Foods added successfully' })
+  @ApiBearerAuth()
+  @Post(':id/add-new-foods')
+  async addFoods(
+  @Param('id') mealId: string,
+  @Body() body: { foods: CreateFoodDto[] },
+  @Request() req: any
+  ) {
+    return this.mealsService.addFoodsToMeal(mealId, req.user.id, body);
   }
 }

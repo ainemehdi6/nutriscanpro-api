@@ -68,7 +68,7 @@ export class AiAnalysisController {
   @ApiResponse({ status: 400, description: 'Bad Request' })
   @ApiBearerAuth()
   @Post('text')
-  analyzeText(@Body() analyzeTextDto: AnalyzeTextDto) {
+  async analyzeText(@Body() analyzeTextDto: AnalyzeTextDto) {
     return this.aiAnalysisService.analyzeText(analyzeTextDto);
   }
 }

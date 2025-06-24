@@ -5,18 +5,23 @@ import {
   UseGuards, 
   Request,
   Get,
+  NotFoundException,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { UsersService } from '../users/users.service';
 import { CreateUserDto } from '../users/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly userService: UsersService
+  ) {}
 
   @ApiOperation({ summary: 'Register a new user' })
   @ApiResponse({ status: 201, description: 'User successfully registered' })
@@ -40,7 +45,9 @@ export class AuthController {
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Get('profile')
-  getProfile(@Request() req: any) {
-    return req.user;
+  async getProfile(@Request() req: any){
+    const userId = req.user.id;
+
+    return this.userService.findByIdWithNutritionalGoals(userId);
   }
 }
