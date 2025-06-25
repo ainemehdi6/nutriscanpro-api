@@ -4,10 +4,9 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import * as fs from 'fs';
 
-async function bootstrap() {
+export async function createApp() {
   const app = await NestFactory.create(AppModule);
-  
-  // Apply global validation pipe
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -15,14 +14,10 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  
-  // Enable CORS
+
   app.enableCors();
-  
-  // Set global prefix
   app.setGlobalPrefix('api');
-  
-  // Swagger documentation setup
+
   const config = new DocumentBuilder()
     .setTitle('Fitness Tracker API')
     .setDescription('API for fitness and nutrition tracking application')
@@ -37,16 +32,20 @@ async function bootstrap() {
     .addTag('ai-analysis', 'AI-powered food analysis endpoints')
     .addBearerAuth()
     .build();
-  
-    const document = SwaggerModule.createDocument(app, config);
 
-    // Save the document to a JSON file
-    fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
+  const document = SwaggerModule.createDocument(app, config);
+  fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
 
-  
-  const port = process.env.PORT || 3000;
-  await app.listen(port);
-  console.log(`Application is running on: http://localhost:${port}`);
+  await app.init();
+  return app.getHttpAdapter().getInstance(); // Express instance
 }
 
-bootstrap();
+// For local development only
+if (process.env.NODE_ENV !== 'production') {
+  createApp().then(app => {
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+      console.log(`Application is running on: http://localhost:${port}`);
+    });
+  });
+}
