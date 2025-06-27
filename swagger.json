@@ -773,6 +773,46 @@
         ]
       }
     },
+    "/api/meals/{mealId}/delete-food/{foodId}": {
+      "delete": {
+        "operationId": "MealsController_deleteFoodFromMeal",
+        "summary": "Delete a specific food from a meal",
+        "parameters": [
+          {
+            "name": "mealId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "foodId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Food removed from meal successfully"
+          },
+          "404": {
+            "description": "Meal or food not found"
+          }
+        },
+        "tags": [
+          "meals"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/api/ai-analysis/image": {
       "post": {
         "operationId": "AiAnalysisController_analyzeImage",

@@ -228,4 +228,33 @@ export class MealsService {
       items: addedItems,
     };
   }
+
+    async deleteFoodFromMeal(
+    mealId: string,
+    foodId: string,
+    userId: string,
+  ) {
+    await this.findOne(mealId, userId);
+
+    const itemsToDelete = await this.prisma.mealItem.findMany({
+      where: {
+        mealId,
+        foodId,
+      },
+    });
+
+    if (itemsToDelete.length === 0) {
+      throw new NotFoundException(`Aucun aliment avec l'ID "${foodId}" trouvé dans le repas "${mealId}"`);
+    }
+
+    const deletedItems = await Promise.all(
+      itemsToDelete.map(item => this.prisma.mealItem.delete({ where: { id: item.id } }))
+    );
+
+    return {
+      success: true,
+      message: `Aliment(s) avec l'ID "${foodId}" supprimé(s) du repas "${mealId}"`,
+      deletedItems,
+    };
+  }
 }

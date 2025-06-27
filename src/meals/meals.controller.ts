@@ -178,4 +178,17 @@ export class MealsController {
   ) {
     return this.mealsService.addFoodsToMeal(mealId, req.user.id, body);
   }
+
+  @ApiOperation({ summary: 'Delete a specific food from a meal' })
+  @ApiResponse({ status: 200, description: 'Food removed from meal successfully' })
+  @ApiResponse({ status: 404, description: 'Meal or food not found' })
+  @ApiBearerAuth()
+  @Delete(':mealId/delete-food/:foodId')
+  async deleteFoodFromMeal(
+    @Param('mealId') mealId: string,
+    @Param('foodId') foodId: string,
+    @Request() req: any,
+  ) {
+    return this.mealsService.deleteFoodFromMeal(mealId, foodId, req.user.id);
+  }
 }
