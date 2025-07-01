@@ -998,36 +998,6 @@
       }
     },
     "/api/exercises/{id}": {
-      "get": {
-        "operationId": "ExercisesController_findOne",
-        "summary": "Get exercise by ID",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Return exercise by ID"
-          },
-          "404": {
-            "description": "Exercise not found"
-          }
-        },
-        "tags": [
-          "exercises"
-        ],
-        "security": [
-          {
-            "bearer": []
-          }
-        ]
-      },
       "patch": {
         "operationId": "ExercisesController_update",
         "summary": "Update exercise",
@@ -1096,6 +1066,58 @@
           {
             "bearer": []
           }
+        ]
+      }
+    },
+    "/api/exercises/examples": {
+      "get": {
+        "operationId": "ExercisesController_getExampleExercises",
+        "summary": "Get example exercises",
+        "parameters": [
+          {
+            "name": "muscle",
+            "required": false,
+            "in": "query",
+            "description": "Muscle group to filter by",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "equipment",
+            "required": false,
+            "in": "query",
+            "description": "Equipment to filter by",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Number of exercises to return (default 50)",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "offset",
+            "required": false,
+            "in": "query",
+            "description": "Offset for pagination (default 0)",
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Return example exercises"
+          }
+        },
+        "tags": [
+          "exercises"
         ]
       }
     },

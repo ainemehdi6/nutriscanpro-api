@@ -58,15 +58,6 @@ export class ExercisesController {
     return this.exercisesService.getCaloriesByDate(req.user.id, date);
   }
 
-  @ApiOperation({ summary: 'Get exercise by ID' })
-  @ApiResponse({ status: 200, description: 'Return exercise by ID' })
-  @ApiResponse({ status: 404, description: 'Exercise not found' })
-  @ApiBearerAuth()
-  @Get(':id')
-  findOne(@Param('id') id: string, @Request() req: any) {
-    return this.exercisesService.findOne(id, req.user.id);
-  }
-
   @ApiOperation({ summary: 'Update exercise' })
   @ApiResponse({ status: 200, description: 'Exercise updated successfully' })
   @ApiResponse({ status: 404, description: 'Exercise not found' })
@@ -87,5 +78,21 @@ export class ExercisesController {
   @Delete(':id')
   remove(@Param('id') id: string, @Request() req: any) {
     return this.exercisesService.remove(id, req.user.id);
+  }
+
+  @ApiOperation({ summary: 'Get example exercises' })
+  @ApiResponse({ status: 200, description: 'Return example exercises' })
+  @ApiQuery({ name: 'muscle', required: false, type: String, description: 'Muscle group to filter by' })
+  @ApiQuery({ name: 'equipment', required: false, type: String, description: 'Equipment to filter by' })
+  @ApiQuery({ name: 'limit', required: false, type: Number, description: 'Number of exercises to return (default 50)' })
+  @ApiQuery({ name: 'offset', required: false, type: Number, description: 'Offset for pagination (default 0)' })
+  @Get('examples')
+  async getExampleExercises(
+    @Query('muscle') muscle?: string,
+    @Query('equipment') equipment?: string,
+    @Query('limit') limit?: number,
+    @Query('offset') offset?: number,
+  ) {
+    return this.exercisesService.getExampleExercises(muscle, equipment, limit, offset);
   }
 }
