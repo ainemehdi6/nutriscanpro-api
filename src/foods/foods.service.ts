@@ -82,8 +82,8 @@ export class FoodsService {
         carbs: product.nutriments?.['carbohydrates_100g'] || 0,
         fat: product.nutriments?.['fat_100g'] || 0,
         servingSize: 
-        parseFloat(product.serving_size) || 
-        parseFloat(product.product_quantity) ||
+        product.serving_size || 
+        product.product_quantity ||
         100,
         servingUnit: 'g',
       };
