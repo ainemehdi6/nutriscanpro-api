@@ -12,9 +12,13 @@ export class FoodsService {
       return null;
     }
     
-    const trimmedValue = value.trim();
+    let trimmedValue = value.trim();
     if (trimmedValue === '') {
       return null;
+    }
+    
+    if (trimmedValue.toLowerCase().endsWith('g')) {
+      trimmedValue = trimmedValue.slice(0, -1).trim();
     }
     
     const parsed = parseFloat(trimmedValue);
@@ -26,16 +30,6 @@ export class FoodsService {
       quantity,
       ...safeFoodData
     } = createFoodDto;
-
-    if (safeFoodData.barcode) {
-      const existingFood = await this.prisma.food.findUnique({
-        where: { barcode: safeFoodData.barcode },
-      });
-      
-      if (existingFood) {
-        throw new ConflictException(`Food with barcode "${safeFoodData.barcode}" already exists`);
-      }
-    }
     
     return this.prisma.food.create({
       data: safeFoodData,
@@ -95,10 +89,7 @@ export class FoodsService {
         protein: product.nutriments?.['proteins_100g'] || 0,
         carbs: product.nutriments?.['carbohydrates_100g'] || 0,
         fat: product.nutriments?.['fat_100g'] || 0,
-        servingSize: 
-          this.parseNumericString(product.product_quantity) || 
-          this.parseNumericString(product.serving_size) ||
-          100,
+        servingSize: this.parseNumericString(product.nutrition_data_per) || 100,
         servingUnit: 'g',
       };
 
