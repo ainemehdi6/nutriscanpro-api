@@ -7,6 +7,20 @@ import { UpdateFoodDto } from './dto/update-food.dto';
 export class FoodsService {
   constructor(private prisma: PrismaService) {}
 
+  private parseNumericString(value: any): number | null {
+    if (value === null || value === undefined || typeof value !== 'string') {
+      return null;
+    }
+    
+    const trimmedValue = value.trim();
+    if (trimmedValue === '') {
+      return null;
+    }
+    
+    const parsed = parseFloat(trimmedValue);
+    return isNaN(parsed) ? null : parsed;
+  }
+
   async create(createFoodDto: CreateFoodDto) {
     const {
       quantity,
@@ -82,9 +96,9 @@ export class FoodsService {
         carbs: product.nutriments?.['carbohydrates_100g'] || 0,
         fat: product.nutriments?.['fat_100g'] || 0,
         servingSize: 
-        product.product_quantity || 
-        product.serving_size ||
-        100,
+          this.parseNumericString(product.product_quantity) || 
+          this.parseNumericString(product.serving_size) ||
+          100,
         servingUnit: 'g',
       };
 
