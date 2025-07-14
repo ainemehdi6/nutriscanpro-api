@@ -26,10 +26,9 @@ export class FoodsService {
   }
 
   async create(createFoodDto: CreateFoodDto) {
-    const {
-      quantity,
-      ...safeFoodData
-    } = createFoodDto;
+    const { quantity, ...rest } = createFoodDto;
+    // @ts-ignore
+    const { id, ...safeFoodData } = rest;
     
     return this.prisma.food.create({
       data: safeFoodData,
